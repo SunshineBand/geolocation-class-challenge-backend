@@ -11,11 +11,11 @@ app.post('/weather', (req, res, next) => {
 
   const { lat, long } = req.body;
 
+  console.log(lat, long);
   if (!(lat && long)) {
     res.status(400).send('Bad Request')
-  }
-
-  axios.get(`https://api.darksky.net/forecast/${process.env.DARK_SKY_KEY}/${lat},${long}?units=si`)
+  } else {
+    axios.get(`https://api.darksky.net/forecast/${process.env.DARK_SKY_KEY}/${lat},${long}?units=si`)
     .then(response => {
       const weather = {
         description: response.data.currently.summary,
@@ -30,6 +30,7 @@ app.post('/weather', (req, res, next) => {
     .finally(() => {
       console.log('Done!');
     });
+  }
 });
 
 const PORT = process.env.PORT || 5000;
