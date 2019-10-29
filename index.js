@@ -10,7 +10,11 @@ app.use(cors());
 app.post('/weather', (req, res, next) => {
 
   const { lat, long } = req.body;
-  console.log(lat, long);
+
+  if (!(lat && long)) {
+    res.status(400).send('Bad Request')
+  }
+
   axios.get(`https://api.darksky.net/forecast/${process.env.DARK_SKY_KEY}/${lat},${long}?units=si`)
     .then(response => {
       const weather = {
